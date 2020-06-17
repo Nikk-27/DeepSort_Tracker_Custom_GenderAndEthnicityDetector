@@ -45,17 +45,25 @@ git clone <url>
 ```
 
 2. Download YOLOv3 parameters and ethnicity and gender weights
+
 ```
 cd detector/YOLOv3/weight/
 wget https://pjreddie.com/media/files/yolov3.weights
-cd ../../../
-```
+
 Ethnicty weights link - 
 Gender weights link - 
 Add these into the main folder 
 DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_eth_last.weights
 DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_last.weights
 
+```
+3. How to run 
+
+```
+Open termial where your repository is cloned at that position, then type python <name of file>
+For example - python tracker_ethnicity.py
+This will run but as I made this repository to run on cpu this will run slow, but if you want to make this run on gpu then you have to make some changes inside tracker files in order to run it on gpu and fast as well. 
+For that open internal .py files and check where ever it is written use_gpu make it true. Or else mail me for any doubts.
 
 
 ## Training the model
@@ -86,9 +94,9 @@ Three Counters used -
 
 The counter gives count of realtime people in frame and also total number of people that passed infront of the camera without viewing into it,  number of people passed infront of the camera with viewing into it, number of man and woman at the end of the day. 
 
-tracker_ethnicty.py - detects gender and ethnicity along with tracker
-tracker_gender.py - detects only gender along with tracker
-Gender_Age.py - Detects gender and age using caffe model files along with tracker
+1) tracker_ethnicty.py - detects gender and ethnicity along with tracker
+2) tracker_gender.py - detects only gender along with tracker
+3) Gender_Age.py - Detects gender and age using caffe model files along with tracker
 
 ## References
 - paper: [Simple Online and Realtime Tracking with a Deep Association Metric](https://arxiv.org/abs/1703.07402)
