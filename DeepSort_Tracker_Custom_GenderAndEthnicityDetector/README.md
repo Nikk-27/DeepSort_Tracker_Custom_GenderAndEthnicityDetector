@@ -1,23 +1,11 @@
-# Deep Sort with PyTorch
 
-![](demo/demo.gif)
-
-## Update(1-1-2020)
-Changes
-- fix bugs
-- refactor code
-- accerate detection by adding nms on gpu
-
-## Latest Update(07-22)
-Changes
-- bug fix (Thanks @JieChen91 and @yingsen1 for bug reporting).  
-- using batch for feature extracting for each frame, which lead to a small speed up.  
-- code improvement.
+This is application made in order to detect how many number of people are actually viewing the advertisement board and how many that are just passing by without viewing into it. Get insights from it like gender, age ethnicity.
 
 Futher improvement direction  
 - Train detector on specific dataset rather than the official one.
 - Retrain REID model on pedestrain dataset for better performance.
 - Replace YOLOv3 detector with advanced ones.
+- Detect hair color of people passing by, am currently working on it using Mask-RCNN
 
 Any contributions to this repository is welcome!
 
@@ -50,65 +38,32 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 1. Clone this repository
 ```
-git clone git@github.com:ZQPei/deep_sort_pytorch.git
+git clone <url>
 ```
 
-2. Download YOLOv3 parameters
+2. Download YOLOv3 parameters and ethnicity and gender weights
 ```
 cd detector/YOLOv3/weight/
 wget https://pjreddie.com/media/files/yolov3.weights
-wget https://pjreddie.com/media/files/yolov3-tiny.weights
 cd ../../../
 ```
+Ethnicty weights link - 
+Gender weights link - 
+Add these into the main folder 
+DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_eth_last.weights
+DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_last.weights
 
-3. Download deepsort parameters ckpt.t7
-```
-cd deep_sort/deep/checkpoint
-# download ckpt.t7 from 
-https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6 to this folder
-cd ../../../
-```  
 
-4. Compile nms module
-```bash
-cd detector/YOLOv3/nms
-sh build.sh
-cd ../../..
-```
 
-5. Run demo
-```
-usage: python yolov3_deepsort.py VIDEO_PATH
-                                [--help] 
-                                [--frame_interval FRAME_INTERVAL]
-                                [--config_detection CONFIG_DETECTION]
-                                [--config_deepsort CONFIG_DEEPSORT]
-                                [--ignore_display]
-                                [--display_width DISPLAY_WIDTH]
-                                [--display_height DISPLAY_HEIGHT]
-                                [--save_path SAVE_PATH]          
-                                [--cpu]          
-
-# yolov3 + deepsort
-python yolov3_deepsort.py [VIDEO_PATH]
-
-# yolov3_tiny + deepsort
-python yolov3_deepsort.py [VIDEO_PATH] --config_detection ./configs/yolov3_tiny.yaml
-```
-If you dont support X server, use `--ignore_display` to disable display.
-Results will be saved to `./demo/demo.avi`.
-
-All files above can also be accessed from BaiduDisk!  
-linker：[BaiduDisk](https://pan.baidu.com/s/1YJ1iPpdFTlUyLFoonYvozg)
-passwd：fbuw
-
-## Training the RE-ID model
+## Training the model
 The original model used in paper is in original_model.py, and its parameter here [original_ckpt.t7](https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6).  
 
 To train the model, first you need download [Market1501](http://www.liangzheng.org/Project/project_reid.html) dataset or [Mars](http://www.liangzheng.com.cn/Project/project_mars.html) dataset.  
 
 Then you can try [train.py](deep_sort/deep/train.py) to train your own parameter and evaluate it using [test.py](deep_sort/deep/test.py) and [evaluate.py](deep_sort/deep/evalute.py).
 ![train.jpg](deep_sort/deep/train.jpg)
+
+I created my dataset of 10k images for detector purpose.
 
 ## Demo videos and images
 [demo.avi](https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6)
@@ -117,6 +72,20 @@ Then you can try [train.py](deep_sort/deep/train.py) to train your own parameter
 ![1.jpg](demo/1.jpg)
 ![2.jpg](demo/2.jpg)
 
+Later merged a detector with this tracker, for detector purpose I used initially used caffe model files already in the depository they are there.
+
+Then I trained my gender detector on dataset of 10k images. I hand labelled those images collected from various sources and trained on YOLOV3 Darknet framework, it detected successfully, then labelled those images according to ethnicity eight groups - asian_woman, asian_man, indian_man, indian_woman, black_man, black_woman, white_man, white_woman. That also worked well. I have also added a counter for the purpose of counting people in realtime. 
+
+Three Counters used -
+1) Count people that are just sitting infront of the camera and not viewing into the camera or screen 
+2) Count those people that are actually viewing into the camera
+3) Count people gender wise
+
+The counter gives count of realtime people in frame and also total number of people that passed infront of the camera without viewing into it,  number of people passed infront of the camera with viewing into it, number of man and woman at the end of the day. 
+
+tracker_ethnicty.py - detects gender and ethnicity along with tracker
+tracker_gender.py - detects only gender along with tracker
+Gender_Age.py - Detects gender and age using caffe model files along with tracker
 
 ## References
 - paper: [Simple Online and Realtime Tracking with a Deep Association Metric](https://arxiv.org/abs/1703.07402)
