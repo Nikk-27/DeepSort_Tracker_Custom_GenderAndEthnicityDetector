@@ -50,7 +50,7 @@ git clone <url>
 cd detector/YOLOv3/weight/
 wget https://pjreddie.com/media/files/yolov3.weights
 
-Ethnicty weights link - 
+Ethnicty weights link - https://drive.google.com/file/d/1CITESg2Rz6c6-z5NS9zsOy88NRCr1I5y/view?usp=sharing
 Gender weights link - 
 Add these into the main folder 
 DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_eth_last.weights
