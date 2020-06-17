@@ -1,0 +1,2 @@
+python yolov3_deepsort.py C:\Users\dapz\Desktop\Face Recognition\deep_sort_pytorch-master\Pedestrian overpass.mp4
+C:\Users\dapz\Desktop\Face Recognition\deep_sort_pytorch-master
