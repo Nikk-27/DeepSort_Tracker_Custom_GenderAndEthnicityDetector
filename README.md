@@ -55,7 +55,6 @@ Gender weights link -
 Add these into the main folder 
 DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_eth_last.weights
 DeepSort_Tracker_Custom_GenderAndEthnicityDetector/yolov3_custom_last.weights
-
 ```
 3. How to run 
 
@@ -64,7 +63,7 @@ Open termial where your repository is cloned at that position, then type python 
 For example - python tracker_ethnicity.py
 This will run but as I made this repository to run on cpu this will run slow, but if you want to make this run on gpu then you have to make some changes inside tracker files in order to run it on gpu and fast as well. 
 For that open internal .py files and check where ever it is written use_gpu make it true. Or else mail me for any doubts.
-
+```
 
 ## Training the model
 The original model used in paper is in original_model.py, and its parameter here [original_ckpt.t7](https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6).  
